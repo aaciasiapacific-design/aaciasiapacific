@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { SiteFooter, SiteHeader } from "./components/SiteChrome";
 
 const programs = [
   { title: "AACI Accreditation Standards", copy: "An internationally recognised pathway for hospitals and healthcare organisations.", image: "/aaci-accreditation.webp", accent: "red" },
@@ -14,8 +13,7 @@ const news = [
 ];
 
 export default function Home() {
-  return <><SiteHeader />
-    <main>
+  return <main>
       <section className="hero"><div className="container hero-grid">
         <div className="hero-copy"><p className="eyebrow light">AACI ASIA PACIFIC</p><h1>Advancing Global Healthcare Standards in Asia Pacific</h1><p className="hero-intro">AACI Asia Pacific delivers trusted accreditation and certification programs that drive quality, patient safety, and operational excellence across the healthcare ecosystem.</p><div className="hero-actions"><Link className="button button-red" href="/accreditation/request">Request Consultation <span>→</span></Link><Link className="button button-ghost" href="/standards">Explore Programs</Link></div></div>
         <div className="hero-visual" role="img" aria-label="Healthcare leaders holding a quality medallion" />
@@ -26,6 +24,5 @@ export default function Home() {
       <section className="section about"><div className="container about-grid"><div className="about-image about-experts" role="img" aria-label="AACI office flag outside the healthcare organisation"/><div className="about-copy"><p className="eyebrow">OUR EXPERTS</p><h2>Led by Experts,<br/>Focused on Excellence</h2><p>AACI’s services are delivered by experienced healthcare practitioners and executives who provide practical, solutions-oriented guidance to their peers around the world. Our multidisciplinary team includes:</p><ul><li><b>✓</b> Physicians and nurses</li><li><b>✓</b> Health system administrators</li><li><b>✓</b> Physical environment and life safety experts</li><li><b>✓</b> Allied health professionals</li></ul><Link className="button button-navy" href="/about">Discover our story <span>→</span></Link></div></div></section>
       <section className="commitment"><div className="container"><p className="eyebrow">OUR COMMITMENT</p><h2>Quality is not a destination.<br/><em>It is a shared practice.</em></h2><p>Our standards are thoughtfully reviewed to remain relevant, evidence-informed and responsive to the changing needs of healthcare.</p></div></section>
       <section className="section news"><div className="container"><div className="section-head centered"><div><p className="eyebrow">LATEST FROM AACI</p><h2>News &amp; updates</h2></div><Link className="text-link" href="/news">View all news <b>→</b></Link></div><div className="news-grid">{news.map(n=><article className="news-card" key={n.title}><div className={'news-image '+n.className}><div className="date"><b>{n.date}</b><span>{n.month}</span></div></div><div><p className="card-category">{n.category}</p><h3>{n.title}</h3><Link className="text-link" href="/news">Read more <b>→</b></Link></div></article>)}</div></div></section>
-    </main><SiteFooter />
-  </>;
+    </main>;
 }
