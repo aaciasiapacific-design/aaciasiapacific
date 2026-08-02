@@ -1,0 +1,3 @@
+import Link from "next/link";
+import { PageHero, serviceGroups } from "../components/ContentLayout";
+export default function ServicesPage(){return <><PageHero eyebrow="AACI SERVICES" title="Ruling risks, saving lives." intro="International standards, certification and practical education for safer, smarter healthcare."/><section className="page-content"><div className="container"><div className="service-grid">{serviceGroups.map(group=><article className="service-card" key={group.title}><p className="eyebrow">AACI PROGRAMME</p><h2>{group.title}</h2><Link className="text-link" href={group.href}>Explore {group.title} <b>→</b></Link><ul>{group.items.map(([label,href])=><li key={href}><Link href={href}>{label}</Link></li>)}</ul></article>)}</div></div></section></>}
