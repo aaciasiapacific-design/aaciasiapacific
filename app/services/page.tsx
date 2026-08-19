@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ServiceContactCard } from "../components/ContentLayout";
 
 const services = [
   { label: "ACCREDITATION", title: "AACI Accreditation Standards", description: "Accreditation is a powerful strategic tool that enables healthcare organizations to meet and exceed expectations for quality and safety.", image: "/aaci-accreditation.webp", href: "/services/accreditation" },
@@ -22,7 +23,7 @@ export default function ServicesPage() {
         <p className="eyebrow">START HERE</p><h2>Find the right pathway.</h2><p>Talk to our team about the standards, certification or support that fits your organization.</p>
         <Link className="button button-red" href="/accreditation/request">REQUEST CONSULTATION <span>→</span></Link>
         <nav><h3>Explore services</h3>{services.map((service) => <Link key={service.href} href={service.href}>{service.title} <span>→</span></Link>)}</nav>
-        <div className="services-sidebar__contact"><strong>Need to speak with us?</strong><a href="mailto:somporn.kumphong@aacihealthcare.com">somporn.kumphong@aacihealthcare.com</a><a href="tel:+66898995436">+66 89 899 5436</a></div>
+        <ServiceContactCard />
       </aside>
     </div></div></section>
   </main>;
