@@ -1,4 +1,4 @@
-import Link from "next/link";
 import { PageHero } from "../components/ContentLayout";
-const articles=["AACI Asia Pacific expands quality education programmes","What a quality-first culture looks like in practice","Preparing your organisation for accreditation"];
-export default function NewsPage(){return <><PageHero eyebrow="AACI INSIGHTS" title="News & updates" intro="Ideas, practical guidance and updates from AACI Asia Pacific."/><section className="page-content"><div className="container article-list">{articles.map((title,index)=><article key={title}><span>0{index+1} · AACI INSIGHTS</span><h2>{title}</h2><p>Explore practical perspectives on clinical quality, governance and continuous improvement in healthcare.</p><Link className="text-link" href="/accreditation/request">Talk to our team <b>→</b></Link></article>)}</div></section></>}
+import { PublicNewsFeed } from "../components/PublicNews";
+
+export default function NewsPage(){return <><PageHero eyebrow="AACI INSIGHTS" title="News & updates" intro="Ideas, practical guidance and updates from AACI Asia Pacific."/><section className="page-content public-news-page"><div className="container"><PublicNewsFeed /></div></section></>}

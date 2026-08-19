@@ -1,1 +1,6 @@
-export default function Events(){return <main><section className="page-hero"><div className="container"><p className="eyebrow light">EDUCATION &amp; EVENTS</p><h1>Learn with the quality community.</h1><p>Upcoming learning opportunities will be published here as they are confirmed.</p></div></section><section className="page-content"><div className="container"><div className="listing-card"><span>UPCOMING EVENTS</span><h2>New events are on their way.</h2><p>Please contact our team to learn about current education and engagement opportunities.</p></div></div></section></main>}
+import { PageHero } from "../components/ContentLayout";
+import { PublicEventFeed } from "../components/PublicEvents";
+
+export default function EventsPage() {
+  return <><PageHero eyebrow="EDUCATION & EVENTS" title="Learn with the quality community." intro="Discover upcoming AACI Asia Pacific events, learning opportunities and professional programmes." /><section className="page-content public-events-page"><div className="container"><PublicEventFeed /></div></section></>;
+}

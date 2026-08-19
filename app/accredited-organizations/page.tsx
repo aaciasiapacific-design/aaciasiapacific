@@ -1,1 +1,5 @@
-export default function Directory(){return <main><section className="page-hero"><div className="container"><p className="eyebrow light">ACCREDITED ORGANISATIONS</p><h1>Find an organisation.</h1><p>This directory will show approved public accreditation records when they are available.</p></div></section><section className="page-content"><div className="container"><div className="listing-card"><span>DIRECTORY</span><h2>No public records available yet.</h2><p>Accreditation status is only published when authorised and reviewed by AACI Asia Pacific.</p></div></div></section></main>}
+import PublicOrganizations from "../components/PublicOrganizations";
+
+export default function Directory() {
+  return <PublicOrganizations />;
+}
