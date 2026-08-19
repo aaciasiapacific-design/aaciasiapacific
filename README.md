@@ -1,8 +1,8 @@
 # vinext-starter
 
-A clean full-stack starter running on
-[vinext](https://github.com/cloudflare/vinext), with optional Cloudflare D1 and
-Drizzle support.
+AACI Asia Pacific's Next.js application. The default scripts target standard
+Next.js hosting such as Vercel, while the `*:sites` scripts preserve the
+[vinext](https://github.com/cloudflare/vinext) build used by Sites.
 
 ## Prerequisites
 
@@ -17,6 +17,10 @@ npm run build
 ```
 
 This starter does not use `wrangler.jsonc`.
+
+Create `.env.local` from `.env.example`. Configure the same variables in the
+hosting platform for preview and production deployments. Keep
+`SUPABASE_SECRET_KEY` server-only.
 
 ## Included Shape
 
@@ -87,9 +91,11 @@ actions tied to the current ChatGPT user. Leave public content anonymous.
 
 ## Useful Commands
 
-- `npm run dev`: start local development
-- `npm run build`: verify the vinext build output
-- `npm test`: build the starter and verify its rendered loading skeleton
+- `npm run dev`: start Next.js local development
+- `npm run build`: verify the Vercel-compatible Next.js production build
+- `npm run dev:sites`: start local development through vinext
+- `npm run build:sites`: verify the Sites/vinext build output
+- `npm test`: build the Sites target and verify its rendered HTML
 - `npm run db:generate`: generate Drizzle migrations after schema changes
 
 ## Learn More

@@ -2,7 +2,10 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { SiteFooter, SiteHeader } from "./components/SiteChrome";
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: "AACI Asia Pacific | Advancing healthcare standards",
   description: "AACI Asia Pacific supports healthcare organisations with accreditation, certification and quality improvement.",
   icons: { icon: "/aaci-favicon.webp" },
