@@ -22,7 +22,7 @@ import {
 import { useAdminPermissions } from "../../lib/admin-access";
 
 type AdminSidebarProps = {
-  active: "dashboard" | "people" | "news" | "events" | "courses" | "organizations" | "users" | "roles";
+  active: "dashboard" | "people" | "news" | "events" | "courses" | "organizations" | "users" | "roles" | "guide";
   userLabel: string;
   role: string;
   onSignOut: () => void | Promise<void>;
@@ -68,7 +68,7 @@ export default function AdminSidebar({ active, userLabel, role, onSignOut }: Adm
         {!loading && can("roles.view") && <Link className={active === "roles" ? "is-active" : ""} href="/admin/roles" onClick={() => setOpen(false)}><ShieldCheck size={18} /><span>Roles & Permissions</span>{active === "roles" && <ChevronRight size={15} />}</Link>}
       </nav>
 
-      <div className="admin-sidebar__help"><BookOpen size={18} /><div><strong>Content guide</strong><span>Publish only reviewed information.</span></div></div>
+      <Link className={`admin-sidebar__help${active === "guide" ? " is-active" : ""}`} href="/admin/guide" onClick={() => setOpen(false)}><BookOpen size={18} /><div><strong>Content guide</strong><span>Publish only reviewed information.</span></div></Link>
       <div className="admin-sidebar__account"><div className="admin-sidebar__avatar">{userLabel.charAt(0).toUpperCase()}</div><div><strong>{userLabel}</strong><span>{roleLabel}</span></div><button type="button" onClick={onSignOut} aria-label="Sign out"><LogOut size={18} /></button></div>
     </aside>
   </>;
