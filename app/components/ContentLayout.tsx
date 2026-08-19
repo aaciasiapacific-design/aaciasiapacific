@@ -50,14 +50,25 @@ export function PageHero({ eyebrow, title, intro }: { eyebrow: string; title: st
   return <section className={`page-hero page-hero--pattern-${pattern}`}><div className="container"><p className="eyebrow light">{eyebrow}</p><h1>{title}</h1><p>{intro}</p></div></section>;
 }
 
-export function SubpageSidebar({ title = "Explore services", links }: { title?: string; links: [string, string][] }) {
+type SidebarContact = {
+  name: string;
+  email: string;
+  phone: string;
+  phoneHref: string;
+  image?: string;
+};
+
+export function SubpageSidebar({ title = "Explore services", links, contact }: { title?: string; links: [string, string][]; contact?: SidebarContact }) {
   return <>
     <p className="eyebrow">START HERE</p>
     <h2>Find the right pathway.</h2>
     <p>Talk to our team about the support that fits your organization.</p>
     <Link className="button button-red" href="/accreditation/request">REQUEST CONSULTATION <span>→</span></Link>
     <nav><h3>{title}</h3>{links.map(([label, href]) => <Link key={href} href={href}>{label} <span>→</span></Link>)}</nav>
-    <div className="services-sidebar__contact"><strong>Need to speak with us?</strong><a href="mailto:somporn.kumphong@aacihealthcare.com">somporn.kumphong@aacihealthcare.com</a><a href="tel:+66898995436">+66 89 899 5436</a></div>
+    {contact ? <div className="services-sidebar__contact services-sidebar__contact--person">
+      {contact.image && <img src={contact.image} alt={contact.name} />}
+      <div><span>YOUR AACI CONTACT</span><strong>{contact.name}</strong><a href={`mailto:${contact.email}`}>{contact.email}</a><a href={`tel:${contact.phoneHref}`}>{contact.phone}</a></div>
+    </div> : <div className="services-sidebar__contact"><strong>Need to speak with us?</strong><a href="mailto:somporn.kumphong@aacihealthcare.com">somporn.kumphong@aacihealthcare.com</a><a href="tel:+66898995436">+66 89 899 5436</a></div>}
   </>;
 }
 
@@ -150,6 +161,7 @@ function CoursesDetail() {
 
 function HealthcareAccreditationDetail() {
   const links: [string, string][] = [["Healthcare Organization Accreditation", "/services/healthcare-accreditation"], ["Dental Organization Accreditation", "/services/dental-accreditation"], ["Accredited Organizations", "/accredited-organizations"], ["Clinical Certification", "/services/certification"], ["Management System Certification", "/services/management-system"]];
+  const contact = { name: "Jutathip Intrarauangsri", email: "jintraruangsri@aacihealthcare.com", phone: "+66 94 895 1669", phoneHref: "+66948951669", image: "/team-jutathip-intrarauangsri.webp" };
   const settings = ["Hospitals and health systems", "Outpatient specialist centers", "Rehabilitation and long-term care facilities", "Primary care and home care services", "Behavioral health and wellness providers"];
   return <><PageHero eyebrow="AACI ASIA PACIFIC" title="Healthcare Organization Accreditation" intro="Practical accreditation standards for safer, stronger healthcare across Asia Pacific." />
     <section className="page-content accreditation-page"><div className="container detail-layout">
@@ -160,7 +172,7 @@ function HealthcareAccreditationDetail() {
         <section className="accreditation-feature"><div><h2>Continuous Improvement and Responsiveness</h2><p>Healthcare is continually evolving. AACI Asia Pacific reviews feedback, emerging practice, technology and risk-management priorities so that standards remain practical, relevant and evidence informed.</p><p>Organizations receive timely, collaborative guidance as they interpret requirements and turn them into sustainable systems.</p></div><img src="/healthcare-accreditation-rounds.png" alt="Clinical team conducting a quality improvement round" /></section>
         <section className="accreditation-plan"><h2>An Integrated Pathway to Trust</h2><p>Accreditation can bring clinical, operational and risk-management priorities together in one coherent framework — helping organizations demonstrate a lasting commitment to safe, person-centered healthcare.</p><div><span>Patient safety</span><span>Clinical governance</span><span>Risk management</span><span>Continuous improvement</span></div></section>
       </div>
-      <aside className="services-sidebar subpage-sidebar"><SubpageSidebar title="Explore accreditation" links={links}/></aside>
+      <aside className="services-sidebar subpage-sidebar"><SubpageSidebar title="Explore accreditation" links={links} contact={contact}/></aside>
     </div></section>
   </>;
 }
