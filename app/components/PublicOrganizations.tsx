@@ -42,8 +42,9 @@ function OrganizationListItem({ organization, view }: { organization: Accredited
   </article>;
 }
 
-function AccreditationStats({ organizations, countries, programmes }: { organizations: number; countries: number; programmes: number }) {
+function AccreditationStats({ accreditations, organizations, countries, programmes }: { accreditations: number; organizations: number; countries: number; programmes: number }) {
   const stats = [
+    { icon: Award, value: accreditations, label: "Total Accreditations" },
     { icon: Building2, value: organizations, label: "Organizations" },
     { icon: Globe2, value: countries, label: "Countries" },
     { icon: ShieldCheck, value: programmes, label: "Accreditation Programs" },
@@ -87,6 +88,7 @@ export default function PublicOrganizations() {
     return (left < 0 ? 99 : left) - (right < 0 ? 99 : right) || a[1].localeCompare(b[1]);
   }), [organizations]);
   const programmes = useMemo(() => Array.from(new Set(organizations.flatMap((item) => getProgrammes(item.programme)))).sort(), [organizations]);
+  const totalAccreditations = useMemo(() => organizations.reduce((total, item) => total + getProgrammes(item.programme).length, 0), [organizations]);
   const organizationTypes = useMemo(() => Array.from(new Set(organizations.map((item) => item.organization_type).filter((value): value is string => Boolean(value)))).sort(), [organizations]);
 
   const filtered = useMemo(() => {
@@ -103,7 +105,7 @@ export default function PublicOrganizations() {
   function expandCountry(code: string) { setExpandedCountries((current) => new Set(current).add(code)); }
 
   return <main className="organization-directory">
-    <section className="directory-hero"><div className="container directory-hero__inner"><div><h1>ACCREDITED ORGANIZATIONS</h1><p>Trusted healthcare organizations accredited by AACI worldwide.</p></div><AccreditationStats organizations={organizations.length} countries={countries.length} programmes={programmes.length} /></div></section>
+    <section className="directory-hero"><div className="container directory-hero__inner"><div><h1>ACCREDITED ORGANIZATIONS</h1><p>Trusted healthcare organizations accredited by AACI worldwide.</p></div><AccreditationStats accreditations={totalAccreditations} organizations={organizations.length} countries={countries.length} programmes={programmes.length} /></div></section>
     <section className="directory-content"><div className="container">
       <div className="directory-filter-panel">
         <div className="directory-filter-row">
