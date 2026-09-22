@@ -21,7 +21,7 @@ export default function ServicesPage() {
       </div>
       <aside className="services-sidebar" aria-label="Services quick links">
         <p className="eyebrow">START HERE</p><h2>Find the right pathway.</h2><p>Talk to our team about the standards, certification or support that fits your organization.</p>
-        <Link className="button button-red" href="https://aacihealthcare.com">REQUEST ACCREDITATION <span>→</span></Link>
+        <Link className="button button-red" href="/accreditation/request">REQUEST ACCREDITATION <span>→</span></Link>
         <nav><h3>Explore services</h3>{services.map((service) => <Link key={service.href} href={service.href}>{service.title} <span>→</span></Link>)}</nav>
         <ServiceContactCard />
       </aside>

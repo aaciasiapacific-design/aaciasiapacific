@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Globe2 } from "lucide-react";
 import { useState } from "react";
 import { aboutLinks, serviceGroups } from "./ContentLayout";
 
@@ -57,7 +57,8 @@ export function MobileMenu() {
       </div>
 
       {links.slice(1).map((item) => <Link href={item.href} onClick={closeMenu} key={item.href}>{item.label}</Link>)}
-      <Link className="button button-red" href="https://aacihealthcare.com" onClick={closeMenu}>REQUEST ACCREDITATION <span>→</span></Link>
+      <a className="button mobile-global" href="https://aacihealthcare.com" target="_blank" rel="noopener noreferrer" onClick={closeMenu}>AACI GLOBAL WEBSITE <Globe2 size={18} strokeWidth={2}/></a>
+      <Link className="button button-red" href="/accreditation/request" onClick={closeMenu}>REQUEST ACCREDITATION <span>→</span></Link>
     </div>}
   </div>;
 }

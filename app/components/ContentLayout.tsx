@@ -72,7 +72,7 @@ export function SubpageSidebar({ title = "Explore services", links, contact = se
     <p className="eyebrow">START HERE</p>
     <h2>Find the right pathway.</h2>
     <p>Talk to our team about the support that fits your organization.</p>
-    <Link className="button button-red" href="https://aacihealthcare.com">REQUEST ACCREDITATION <span>→</span></Link>
+    <Link className="button button-red" href="/accreditation/request">REQUEST ACCREDITATION <span>→</span></Link>
     <nav><h3>{title}</h3>{links.map(([label, href]) => <Link key={href} href={href}>{label} <span>→</span></Link>)}</nav>
     <ServiceContactCard contact={contact} />
   </>;
