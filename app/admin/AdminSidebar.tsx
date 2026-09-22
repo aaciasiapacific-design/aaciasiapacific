@@ -35,7 +35,7 @@ const contentLinks = [
   { label: "Courses", href: "/admin/courses", icon: GraduationCap, available: true, permission: "courses.view" },
   { label: "Organizations", href: "/admin/organizations", icon: Award, available: true, permission: "organizations.view" },
   { label: "Resources", href: "#", icon: FileText, available: false },
-  { label: "Consultation", href: "#", icon: MessageSquareText, available: false },
+  { label: "Accreditation", href: "#", icon: MessageSquareText, available: false },
 ] as const;
 
 export default function AdminSidebar({ active, userLabel, role, onSignOut }: AdminSidebarProps) {

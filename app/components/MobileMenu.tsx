@@ -57,7 +57,7 @@ export function MobileMenu() {
       </div>
 
       {links.slice(1).map((item) => <Link href={item.href} onClick={closeMenu} key={item.href}>{item.label}</Link>)}
-      <Link className="button button-red" href="/accreditation/request" onClick={closeMenu}>REQUEST CONSULTATION <span>→</span></Link>
+      <Link className="button button-red" href="https://aacihealthcare.com" onClick={closeMenu}>REQUEST ACCREDITATION <span>→</span></Link>
     </div>}
   </div>;
 }

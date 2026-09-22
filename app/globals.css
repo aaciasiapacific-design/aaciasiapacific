@@ -52,7 +52,7 @@
 
 .hero h1{font-family:Arial,sans-serif;font-weight:700}
 
-.hero-visual{background-image:url('/aaci-hero-human.webp');background-color:#03182b;background-repeat:no-repeat;background-size:auto 94%;background-position:calc(100% - 20px) bottom}@media(max-width:800px){.hero-visual{background-size:auto 92%;background-position:calc(50% - 8px) bottom}}
+.hero-visual{background-image:url('/aaci-hero-human-asian-v2.png');background-color:#03182b;background-repeat:no-repeat;background-size:auto 94%;background-position:calc(100% - 20px) bottom}@media(max-width:800px){.hero-visual{background-size:auto 92%;background-position:calc(50% - 8px) bottom}}
 
 .offer-benefits h3{color:#03182b;font-weight:800}.offer-benefits p{color:#03182b!important}.offer-benefits article>span{color:#03182b!important;border-color:#03182b}
 

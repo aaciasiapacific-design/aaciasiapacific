@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: "AACI Asia Pacific | Advancing healthcare standards",
   description: "AACI Asia Pacific supports healthcare organisations with accreditation, certification and quality improvement.",
-  icons: { icon: "/aaci-favicon.webp" },
+  icons: { icon: "/aaci-3d-logo.png", shortcut: "/aaci-3d-logo.png", apple: "/aaci-3d-logo.png" },
   openGraph: { title: "AACI Asia Pacific", description: "Advancing healthcare standards in Asia Pacific.", images: ["/og.png"] },
   twitter: { card: "summary_large_image", images: ["/og.png"] },
 };

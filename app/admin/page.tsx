@@ -18,7 +18,7 @@ const modules = [
   ["Courses", "Manage courses, schedules, fees and class sessions.", "/admin/courses", "courses.view"],
   ["Accredited Organizations", "Maintain the public accreditation directory.", "/admin/organizations", "organizations.view"],
   ["Resources", "Publish guides, files and external resources.", null, null],
-  ["Consultation Requests", "Review and follow up website enquiries.", null, null],
+  ["Accreditation Requests", "Review and follow up website enquiries.", null, null],
   ["People", "Manage Asia Office, Directors, Advisory Board and Surveyors.", "/admin/people", "people.view"],
   ["Users", "Invite users, assign roles and control account access.", "/admin/users", "users.view"],
   ["Roles & Permissions", "Define what each administration role can access and change.", "/admin/roles", "roles.view"],
