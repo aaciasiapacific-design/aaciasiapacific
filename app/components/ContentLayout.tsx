@@ -72,7 +72,7 @@ export function SubpageSidebar({ title = "Explore services", links, contact = se
     <p className="eyebrow">START HERE</p>
     <h2>Find the right pathway.</h2>
     <p>Talk to our team about the support that fits your organization.</p>
-    <Link className="button button-red" href="/accreditation/request">REQUEST ACCREDITATION <span>→</span></Link>
+    <a className="button button-red" href="https://api.whatsapp.com/message/4T64JWYQGJO2E1?autoload=1&app_absent=0" target="_blank" rel="noopener noreferrer">REQUEST ACCREDITATION <span>→</span></a>
     <nav><h3>{title}</h3>{links.map(([label, href]) => <Link key={href} href={href}>{label} <span>→</span></Link>)}</nav>
     <ServiceContactCard contact={contact} />
   </>;

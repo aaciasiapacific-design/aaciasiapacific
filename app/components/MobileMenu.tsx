@@ -58,7 +58,7 @@ export function MobileMenu() {
 
       {links.slice(1).map((item) => <Link href={item.href} onClick={closeMenu} key={item.href}>{item.label}</Link>)}
       <a className="button mobile-global" href="https://aacihealthcare.com" target="_blank" rel="noopener noreferrer" onClick={closeMenu}>AACI GLOBAL WEBSITE <Globe2 size={18} strokeWidth={2}/></a>
-      <Link className="button button-red" href="/accreditation/request" onClick={closeMenu}>REQUEST ACCREDITATION <span>→</span></Link>
+      <a className="button button-red" href="https://api.whatsapp.com/message/4T64JWYQGJO2E1?autoload=1&app_absent=0" target="_blank" rel="noopener noreferrer" onClick={closeMenu}>REQUEST ACCREDITATION <span>→</span></a>
     </div>}
   </div>;
 }

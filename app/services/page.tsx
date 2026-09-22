@@ -21,7 +21,7 @@ export default function ServicesPage() {
       </div>
       <aside className="services-sidebar" aria-label="Services quick links">
         <p className="eyebrow">START HERE</p><h2>Find the right pathway.</h2><p>Talk to our team about the standards, certification or support that fits your organization.</p>
-        <Link className="button button-red" href="/accreditation/request">REQUEST ACCREDITATION <span>→</span></Link>
+        <a className="button button-red" href="https://api.whatsapp.com/message/4T64JWYQGJO2E1?autoload=1&app_absent=0" target="_blank" rel="noopener noreferrer">REQUEST ACCREDITATION <span>→</span></a>
         <nav><h3>Explore services</h3>{services.map((service) => <Link key={service.href} href={service.href}>{service.title} <span>→</span></Link>)}</nav>
         <ServiceContactCard />
       </aside>
