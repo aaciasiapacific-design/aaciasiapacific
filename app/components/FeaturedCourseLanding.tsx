@@ -118,8 +118,8 @@ export function FeaturedCourseLanding({ course, language }: { course: FeaturedCo
             {applicantRequirements && (
               <section className="featured-course-requirements">
                 <header>
-                  <p className="eyebrow">CURRICULUM VITAE</p>
-                  <h2>Surveyor applicant requirements</h2>
+                  <p className="eyebrow">{language === "th" ? "คุณสมบัติผู้สมัคร" : "CURRICULUM VITAE"}</p>
+                  <h2>{language === "th" ? "ข้อกำหนดสำหรับผู้สมัครเป็นผู้เยี่ยมสำรวจ" : "Surveyor applicant requirements"}</h2>
                   {applicantRequirements.intro.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
                 </header>
                 <div>{applicantRequirements.specialties.map((specialty) => (
