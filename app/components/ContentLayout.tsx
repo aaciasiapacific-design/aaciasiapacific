@@ -1,6 +1,9 @@
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
+import { Globe2, GraduationCap, MonitorPlay } from "lucide-react";
 import PublicCourseDirectory from "./PublicCourses";
+import { CampaignHero } from "./CampaignHero";
 
 export const serviceGroups = [
   { title: "Accreditation", href: "/services/accreditation", items: [
@@ -157,11 +160,14 @@ function ManagementSystemDetail() {
 }
 
 function CoursesDetail() {
-  const offerings = [["Expert-led training", "Practical, up-to-date programmes delivered by industry experts and experienced surveyors."], ["Flexible learning", "Live online, on-demand and blended learning options that work around your schedule."], ["International standards", "Learning aligned with AACI standards and global healthcare best practice."], ["Professional development", "Build competence, strengthen leadership and advance your career."], ["Measurable impact", "Drive improvement, support compliance and create lasting value for your organisation."]];
-  return <><PageHero eyebrow="AACI ACADEMY" title="Learn. Apply. Transform." intro="Empowering healthcare excellence through knowledge, practical tools and professional development." />
-    <main className="academy-page"><section className="academy-intro container"><div><p className="eyebrow">KNOWLEDGE · EXCELLENCE · IMPACT</p><h2>Education that moves healthcare forward.</h2><p>AACI Academy is the educational arm of AACI, dedicated to advancing healthcare quality, patient safety and organisational excellence through world-class training, resources and professional development.</p><Link className="button button-red" href="/accreditation/request">Register your interest <span>→</span></Link></div><img src="/aaci-academy-overview.jpg" alt="AACI Academy healthcare education and training" /></section>
-      <section className="academy-offerings"><div className="container"><header><p className="eyebrow">OUR CORE OFFERINGS</p><h2>Practical learning. Lasting impact.</h2></header><div className="academy-offerings__grid">{offerings.map(([title, copy], index)=><article key={title}><span>0{index + 1}</span><h3>{title}</h3><p>{copy}</p></article>)}</div></div></section>
-      <PublicCourseDirectory />
+  const courseBenefits = [
+    { title: "Expert guidance", copy: "Learn with industry experts and experienced AACI surveyors.", icon: GraduationCap },
+    { title: "Flexible participation", copy: "Choose live online, on demand and blended learning options.", icon: MonitorPlay },
+    { title: "International alignment", copy: "Build skills around AACI standards and global healthcare practice.", icon: Globe2 },
+  ];
+  return <><CampaignHero />
+    <main className="academy-page"><section className="course-overview container" aria-labelledby="course-overview-title"><div className="course-overview__story"><p className="eyebrow">AACI ACADEMY</p><h2 id="course-overview-title">Practical learning for safer, stronger healthcare.</h2><p>AACI Academy supports healthcare professionals and organisations with focused education in quality, patient safety, accreditation and organisational excellence.</p><Link className="course-overview__action" href="#courses-2026">Explore 2026 programmes <span aria-hidden="true">↓</span></Link></div><figure className="course-overview__media"><Image src="/aaci-academy-overview.jpg" alt="Healthcare professionals taking part in AACI Academy training" width={1122} height={1402} sizes="(max-width: 900px) 100vw, 42vw" /><figcaption><span>AACI Academy</span><strong>Professional development for healthcare teams</strong></figcaption></figure><div className="course-overview__benefits" aria-label="Why learn with AACI Academy">{courseBenefits.map(({ title, copy, icon: Icon }) => <article key={title}><span className="course-overview__benefit-icon" aria-hidden="true"><Icon size={22} strokeWidth={1.8} /></span><div><h3>{title}</h3><p>{copy}</p></div></article>)}</div></section>
+      <div id="courses-2026" className="academy-programme-anchor"><PublicCourseDirectory /></div>
     </main></>;
 }
 

@@ -1,0 +1,98 @@
+/* 2026 AACI Academy campaign hero */
+.campaign-hero {
+  position: relative;
+  overflow: hidden;
+  padding: 24px 0 32px;
+  background: #03182b;
+  color: #fff;
+}
+
+.campaign-hero__stage {
+  width: min(1440px, calc(100% - 48px));
+  margin: 0 auto;
+  animation: campaign-hero-enter 700ms cubic-bezier(.22, 1, .36, 1) both;
+}
+
+.campaign-hero__topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4px 12px;
+  color: #cbd8e6;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+}
+
+.campaign-hero__topline span:first-child {
+  color: #efc14d;
+}
+
+.campaign-hero__visual {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid #d6a83c;
+  border-radius: 16px;
+  background: #0b315a;
+  box-shadow: 0 24px 64px #0000004d;
+}
+
+.campaign-hero__visual img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1895 / 830;
+  object-fit: contain;
+}
+
+.academy-programme-anchor {
+  scroll-margin-top: 24px;
+}
+
+@keyframes campaign-hero-enter {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 800px) {
+  .campaign-hero {
+    padding: 12px 0 24px;
+  }
+
+  .campaign-hero__stage {
+    width: calc(100% - 24px);
+  }
+
+  .campaign-hero__topline {
+    padding: 0 2px 8px;
+    font-size: 12px;
+    letter-spacing: .8px;
+  }
+
+  .campaign-hero__visual {
+    border-radius: 8px;
+    box-shadow: 0 16px 40px #00000042;
+  }
+
+}
+
+@media (max-width: 430px) {
+  .campaign-hero__topline span:last-child {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .campaign-hero__stage {
+    animation: none;
+  }
+
+}

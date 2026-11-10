@@ -1,5 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import "./campaign-hero.css";
+import "./courses-page.css";
+import "./featured-courses.css";
+import "./home-academy.css";
 import { SiteFooter, SiteHeader } from "./components/SiteChrome";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";

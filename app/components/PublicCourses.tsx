@@ -1,11 +1,14 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useState } from "react";
-import { ArrowLeft, BadgeDollarSign, CalendarDays, Clock3, Gift, GraduationCap, Mail, Monitor, Phone, Users } from "lucide-react";
+import { ArrowLeft, ArrowRight, BadgeDollarSign, CalendarDays, ClipboardCheck, Clock3, ExternalLink, Gift, GraduationCap, Mail, Monitor, Phone, ShieldCheck, Users, UsersRound } from "lucide-react";
 import { QRCodeSVG } from "qrcode.react";
 import { getSupabaseBrowserClient } from "../../lib/supabase/client";
 import { CourseRecord, REGISTRATION_STATUS_LABELS, formatCourseFee, formatSessionDate, getCourseImageUrl } from "../../lib/courses";
+import { FEATURED_COURSES, LANGUAGE_CONTACTS, UPCOMING_COURSES } from "../../lib/featured-courses";
+import { CourseCountdown } from "./CourseCountdown";
 
 const COURSE_SELECT = "id, slug, title, category, summary, description, cover_image_path, duration_text, format_text, fee_amount, fee_currency, registration_url, status, published_at, sort_order, is_featured, accent_color, topics, early_bird_deadline, early_bird_discount_percent, created_at, updated_at, course_sessions(id, course_id, starts_at, ends_at, timezone, capacity, registration_deadline, registration_url, registration_status, status, sort_order, created_at, updated_at)";
 const PUBLIC_SITE_ORIGIN = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ?? "";
@@ -31,6 +34,12 @@ function sessionTime(course: CourseRecord) {
   return session.ends_at ? `${format(session.starts_at)} – ${format(session.ends_at)}` : format(session.starts_at);
 }
 
+function FeaturedCourseIcon({ slug }: { slug: string }) {
+  if (slug === "apac-surveyor-master-class-5") return <UsersRound size={22} strokeWidth={1.9} aria-hidden="true" />;
+  if (slug === "surveyor-lead-surveyor-master-class-15") return <ClipboardCheck size={22} strokeWidth={1.9} aria-hidden="true" />;
+  return <ShieldCheck size={22} strokeWidth={1.9} aria-hidden="true" />;
+}
+
 function CourseRegistrationPanel({ course, capacity, registrationUrl, origin, titleId }: { course: CourseRecord; capacity: number; registrationUrl: string | null; origin: string; titleId: string }) {
   const discount = course.early_bird_discount_percent ?? 20;
   const registrationTarget = registrationUrl ?? "/accreditation/request";
@@ -39,15 +48,60 @@ function CourseRegistrationPanel({ course, capacity, registrationUrl, origin, ti
 }
 
 export default function PublicCourseDirectory() {
-  const [courses, setCourses] = useState<CourseRecord[]>([]); const [loading, setLoading] = useState(true); const [error, setError] = useState(false);
-  useEffect(() => { const legacySlug = window.location.hash.slice(1); if (/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(legacySlug)) { window.location.replace(`/services/courses/${legacySlug}`); return; } let active = true; getSupabaseBrowserClient().from("courses").select(COURSE_SELECT).eq("status", "published").order("sort_order", { ascending: true }).then(({ data, error: queryError }) => { if (!active) return; setCourses(((data ?? []) as unknown as CourseRecord[]).map((item) => ({ ...item, course_sessions: (item.course_sessions ?? []).filter((session) => session.status === "published").sort((a, b) => a.sort_order - b.sort_order || a.starts_at.localeCompare(b.starts_at)) }))); setError(Boolean(queryError)); setLoading(false); }); return () => { active = false; }; }, []);
-  const featuredCourse = courses.find((course) => course.is_featured) ?? courses[0];
-  const featuredSession = featuredCourse?.course_sessions?.find((session) => session.registration_status === "open") ?? featuredCourse?.course_sessions?.[0];
-  const featuredRegistrationUrl = featuredSession?.registration_url ?? featuredCourse?.registration_url ?? null;
-  return <><section className="academy-programmes container"><header><p className="eyebrow">2026 EDUCATION PROGRAMMES</p><h2>Choose a programme that fits your next step.</h2><p>Explore AACI professional education, live class schedules and registration options.</p></header>{loading ? <div className="people-public-state" role="status">Loading courses…</div> : error ? <div className="people-public-state people-public-state--error" role="alert">We could not load the courses. Please try again shortly.</div> : courses.length === 0 ? <div className="people-public-state"><GraduationCap size={34} strokeWidth={1.5} /><h2>New courses are on their way.</h2><p>Contact our team for current professional education opportunities.</p></div> : <div className="academy-programmes__grid">{courses.map((course) => {
-    const image = getCourseImageUrl(course.cover_image_path); const featured = course.is_featured; const fee = formatCourseFee(course.fee_amount, course.fee_currency);
-    return <article id={course.slug} key={course.id} className={featured ? "academy-programmes__featured" : undefined} style={{ "--programme-color": course.accent_color } as React.CSSProperties}><Link className="academy-programmes__image" href={`/services/courses/${course.slug}`}>{image ? <img src={image} alt={course.title} /> : <span className="academy-programmes__placeholder"><GraduationCap size={52} strokeWidth={1.3} /></span>}<div className="academy-programmes__tag">{featured ? "Registration is now open" : course.category ?? "AACI Course"}</div></Link><div className="academy-programmes__body">{featured && <p className="academy-programmes__featured-label">{course.category ?? "AACI PROFESSIONAL TRAINING"}</p>}<h3><Link className="academy-programmes__title-link" href={`/services/courses/${course.slug}`}>{course.title}</Link></h3>{course.summary && <p className={featured ? "academy-programmes__featured-summary" : "academy-programmes__summary"}>{course.summary}</p>}{featured && course.early_bird_discount_percent && <div className="academy-programmes__promotion"><strong>{course.early_bird_discount_percent}% OFF</strong><span>{course.early_bird_deadline ? `Early bird registration by ${new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" }).format(new Date(`${course.early_bird_deadline}T00:00:00Z`))}` : "Early bird offer available"}</span></div>}<p className="academy-programmes__dates">{scheduleText(course)}</p><dl><div><dt>Time</dt><dd>{sessionTime(course)}</dd></div><div><dt>Format</dt><dd>{course.format_text ?? "To be announced"}</dd></div><div><dt>Fee</dt><dd>{fee}</dd></div></dl>{featured && course.topics.length > 0 && <div className="academy-programmes__topics" aria-label="Course topics">{course.topics.map((topic) => <span key={topic}>{topic}</span>)}</div>}<Link className="text-link" href={`/services/courses/${course.slug}`}>View course <b>→</b></Link></div></article>;
-  })}</div>}</section><section className="academy-audience"><div className="container"><p className="eyebrow">WHO WE SERVE</p><div>{["Healthcare professionals", "Hospital leaders", "Quality & safety practitioners", "Students & academics", "Global healthcare community"].map((item, index)=><article key={item}><span>0{index + 1}</span><strong>{item}</strong></article>)}</div></div></section>{featuredCourse && <CourseRegistrationPanel course={featuredCourse} capacity={featuredSession?.capacity ?? 50} registrationUrl={featuredRegistrationUrl} origin={PUBLIC_SITE_ORIGIN} titleId="course-directory-registration-title" />}</>;
+  return <>
+    <section className="course-open container" aria-labelledby="open-courses-title">
+      <header>
+        <p className="eyebrow">NOW ACCEPTING APPLICATIONS</p>
+        <h2 id="open-courses-title">Three programmes are now open.</h2>
+        <p>Choose a programme to review the full schedule, fees and course details before registering.</p>
+      </header>
+      <div className="course-open__grid">
+        {FEATURED_COURSES.map((course) => <article key={course.slug}>
+          <div className={`course-open__image${course.slug === "surveyor-lead-surveyor-master-class-15" ? " course-open__image--badge-right" : ""}`}>
+            <Image src={course.image} alt={course.title} width={course.imageWidth} height={course.imageHeight} sizes="(max-width: 760px) 100vw, 360px" />
+            <span>Registration is open</span>
+          </div>
+          <div className="course-open__body">
+            <div className="course-open__heading">
+              <p className="course-open__number">{course.shortTitle}</p>
+              <h3>{course.title}</h3>
+              <p>{course.summary.en}</p>
+            </div>
+            <div className="course-open__meta">
+              <div className="course-open__schedule"><CalendarDays size={18} /><span>{course.schedule.en}</span></div>
+              <div className="course-open__countdown"><small>Class starts in</small><CourseCountdown target={course.startAt} compact /></div>
+            </div>
+            <div className="course-open__languages">
+              {course.availableLanguages.map((language) => {
+                const contact = LANGUAGE_CONTACTS[language];
+                return <article className="course-open__language-card" key={language}>
+                  <Link className="course-open__language-link" href={`/services/courses/${course.slug}/${language}`}>
+                    <span><FeaturedCourseIcon slug={course.slug} /></span>
+                    <div><strong>{course.shortTitle}</strong><small>{course.cardSubtitle}</small></div>
+                    <ArrowRight size={17} />
+                  </Link>
+                  <div className="course-open__language-contact" lang={language}>
+                    <div className="course-open__language-contact-copy">
+                      <p>{contact.intro}</p>
+                      <strong>{contact.name}</strong>
+                      <a href={`tel:${contact.phone.replace(/\s|-/g, "")}`}>{contact.phoneLabel} {contact.phone}</a>
+                      <a href={`mailto:${contact.email}`}>E-mail: {contact.email}</a>
+                      <span>{contact.channel}</span>
+                    </div>
+                    <Link className="course-open__language-cta" href={`/services/courses/${course.slug}/${language}`}>
+                      View Course Details &amp; Register
+                      <ArrowRight size={17} />
+                    </Link>
+                  </div>
+                </article>;
+              })}
+            </div>
+          </div>
+        </article>)}
+      </div>
+    </section>
+    <section className="course-upcoming"><div className="container"><header><div><p className="eyebrow">PROGRAMME DIRECTORY</p><h2>More courses from AACI Academy</h2></div><p>These programmes are listed for planning purposes. Follow AACI Academy on Facebook for registration and schedule announcements.</p></header><div className="course-upcoming__list">{UPCOMING_COURSES.map(([title, href, description, image]) => <article key={title}><Link className="course-upcoming__course" href={href}><span className="course-upcoming__image"><Image src={image} alt="" width={768} height={432} sizes="(max-width: 760px) 100vw, 50vw" /></span><strong>{title}</strong><p>{description}</p><span>View course information <ArrowRight size={16} /></span></Link><a className="course-upcoming__facebook" href="https://www.facebook.com/HCGinternational" target="_blank" rel="noreferrer">Follow AACI Academy on Facebook <ExternalLink size={16} /></a></article>)}</div></div></section>
+  </>;
 }
 
 function CourseDescription({ description }: { description: string }) {
@@ -60,8 +114,10 @@ export function PublicCourseDetail({ slug }: { slug: string }) {
   useEffect(() => { let active = true; getSupabaseBrowserClient().from("courses").select(COURSE_SELECT).eq("slug", slug).eq("status", "published").maybeSingle().then(({ data, error: queryError }) => { if (!active) return; const item = data as unknown as CourseRecord | null; setCourse(item ? { ...item, course_sessions: (item.course_sessions ?? []).filter((session) => session.status === "published").sort((a, b) => a.sort_order - b.sort_order || a.starts_at.localeCompare(b.starts_at)) } : null); setError(Boolean(queryError)); setLoading(false); }); return () => { active = false; }; }, [slug]);
   if (loading) return <main className="course-detail-page"><div className="container people-public-state" role="status">Loading course…</div></main>;
   if (error || !course) return <main className="course-detail-page"><div className="container people-public-state people-public-state--error" role="alert"><GraduationCap size={34} strokeWidth={1.5} /><h1>Course unavailable</h1><p>This course is unavailable or has not been published.</p><Link className="text-link" href="/services/courses">View all courses <b>→</b></Link></div></main>;
-  const image = getCourseImageUrl(course.cover_image_path); const sessions = course.course_sessions ?? []; const registrationOpen = !sessions.length || sessions.some((session) => session.registration_status === "open");
+  const image = getCourseImageUrl(course.cover_image_path); const sessions = course.course_sessions ?? [];
+  const isUpcomingCourse = UPCOMING_COURSES.some(([, href]) => href.endsWith(`/${slug}`));
+  const registrationOpen = !isUpcomingCourse && (!sessions.length || sessions.some((session) => session.registration_status === "open"));
   const capacity = sessions.find((session) => session.capacity)?.capacity ?? 50;
   const registrationUrl = sessions.find((session) => session.registration_status === "open" && session.registration_url)?.registration_url ?? course.registration_url;
-  return <main className="course-detail-page"><section className="course-detail-hero"><div className="container"><Link href="/services/courses"><ArrowLeft size={16} /> All courses</Link><p className="eyebrow light">{course.category ?? "AACI ACADEMY"}</p><h1>{course.title}</h1><p>{course.summary}</p></div></section><div className="container course-detail-layout"><article className="course-detail-content">{image && <img className="course-detail-cover" src={image} alt={course.title} />}<div className="course-detail-copy"><CourseDescription description={course.description} />{course.topics.length > 0 && <section className="course-detail-topics"><p className="eyebrow">WHO SHOULD ATTEND?</p><h2>Build the competencies that matter.</h2><ul>{course.topics.map((topic) => <li key={topic}>{topic}</li>)}</ul></section>}{sessions.length > 0 && <section className="course-detail-sessions"><p className="eyebrow">CLASS SCHEDULE</p><h2>{sessions.length} live training sessions</h2><div>{sessions.map((session, index) => <article key={session.id}><span>{String(index + 1).padStart(2, "0")}</span><div><strong>{formatSessionDate(session.starts_at, session.timezone)}</strong>{session.ends_at && <small>Ends {formatSessionDate(session.ends_at, session.timezone)}</small>}</div><em>{REGISTRATION_STATUS_LABELS[session.registration_status]}</em></article>)}</div></section>}</div></article><aside className="course-detail-sidebar"><section><p className="eyebrow">COURSE DETAILS</p><h2>Plan your training</h2><dl><div><dt><CalendarDays size={17} />Training period</dt><dd>{scheduleText(course)}</dd></div><div><dt><Clock3 size={17} />Time</dt><dd>{sessionTime(course)}<small>Bangkok Time (GMT+7)</small></dd></div><div><dt><Monitor size={17} />Format</dt><dd>{course.format_text ?? "To be announced"}</dd></div><div><dt><BadgeDollarSign size={17} />Registration fee</dt><dd>{formatCourseFee(course.fee_amount, course.fee_currency)}</dd></div></dl>{course.early_bird_discount_percent && <div className="course-detail-earlybird"><strong>{course.early_bird_discount_percent}% OFF</strong><span>{course.early_bird_deadline ? `Register by ${new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" }).format(new Date(`${course.early_bird_deadline}T00:00:00Z`))}` : "Early bird offer"}</span></div>}{registrationOpen ? <RegistrationLink url={registrationUrl} label="Register now" /> : <p className="course-detail-closed">Registration is currently closed.</p>}</section></aside></div><CourseRegistrationPanel course={course} capacity={capacity} registrationUrl={registrationUrl} origin={PUBLIC_SITE_ORIGIN} titleId="course-registration-title" /></main>;
+  return <main className="course-detail-page"><section className="course-detail-hero"><div className="container"><Link href="/services/courses"><ArrowLeft size={16} /> All courses</Link><p className="eyebrow light">{course.category ?? "AACI ACADEMY"}</p><h1>{course.title}</h1><p>{course.summary}</p></div></section><div className="container course-detail-layout"><article className="course-detail-content">{image && <img className="course-detail-cover" src={image} alt={course.title} />}<div className="course-detail-copy"><CourseDescription description={course.description} />{course.topics.length > 0 && <section className="course-detail-topics"><p className="eyebrow">WHO SHOULD ATTEND?</p><h2>Build the competencies that matter.</h2><ul>{course.topics.map((topic) => <li key={topic}>{topic}</li>)}</ul></section>}{sessions.length > 0 && <section className="course-detail-sessions"><p className="eyebrow">CLASS SCHEDULE</p><h2>{sessions.length} live training sessions</h2><div>{sessions.map((session, index) => <article key={session.id}><span>{String(index + 1).padStart(2, "0")}</span><div><strong>{formatSessionDate(session.starts_at, session.timezone)}</strong>{session.ends_at && <small>Ends {formatSessionDate(session.ends_at, session.timezone)}</small>}</div><em>{REGISTRATION_STATUS_LABELS[session.registration_status]}</em></article>)}</div></section>}</div></article><aside className="course-detail-sidebar"><section><p className="eyebrow">COURSE DETAILS</p><h2>Plan your training</h2><dl><div><dt><CalendarDays size={17} />Training period</dt><dd>{scheduleText(course)}</dd></div><div><dt><Clock3 size={17} />Time</dt><dd>{sessionTime(course)}<small>Bangkok Time (GMT+7)</small></dd></div><div><dt><Monitor size={17} />Format</dt><dd>{course.format_text ?? "To be announced"}</dd></div><div><dt><BadgeDollarSign size={17} />Registration fee</dt><dd>{formatCourseFee(course.fee_amount, course.fee_currency)}</dd></div></dl>{course.early_bird_discount_percent && <div className="course-detail-earlybird"><strong>{course.early_bird_discount_percent}% OFF</strong><span>{course.early_bird_deadline ? `Register by ${new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" }).format(new Date(`${course.early_bird_deadline}T00:00:00Z`))}` : "Early bird offer"}</span></div>}{registrationOpen ? <RegistrationLink url={registrationUrl} label="Register now" /> : <p className="course-detail-closed">Registration is not currently open.</p>}</section></aside></div>{registrationOpen && <CourseRegistrationPanel course={course} capacity={capacity} registrationUrl={registrationUrl} origin={PUBLIC_SITE_ORIGIN} titleId="course-registration-title" />}</main>;
 }
