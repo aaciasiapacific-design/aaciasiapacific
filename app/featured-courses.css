@@ -64,6 +64,7 @@
 }
 
 .course-open__image img {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -1206,8 +1207,18 @@
   }
 
   .course-open__image {
-    height: 280px;
+    height: auto;
     min-height: 0;
+    aspect-ratio: 1 / 1;
+  }
+
+  .course-open__image img {
+    object-fit: contain;
+    object-position: center;
+  }
+
+  .course-open__image > span {
+    display: none;
   }
 
   .course-open__language-card:only-child .course-open__language-contact {
@@ -1330,10 +1341,6 @@
     font-size: 36px;
     line-height: 40px;
     letter-spacing: -.8px;
-  }
-
-  .course-open__image {
-    height: 240px;
   }
 
   .course-upcoming__list article {
