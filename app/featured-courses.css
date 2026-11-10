@@ -399,6 +399,13 @@
   text-decoration: none;
 }
 
+.course-upcoming__course > strong,
+.course-upcoming__course > p,
+.course-upcoming__cta {
+  min-width: 0;
+  grid-column: 2;
+}
+
 .course-upcoming__image {
   display: block;
   width: 160px;
@@ -445,7 +452,7 @@
   text-wrap: pretty;
 }
 
-.course-upcoming__course > span {
+.course-upcoming__cta {
   display: inline-flex;
   width: fit-content;
   align-items: center;
@@ -1241,7 +1248,12 @@
   }
 
   .course-upcoming__facebook {
+    width: 100%;
     justify-self: start;
+  }
+
+  .featured-course-information__card {
+    min-height: 0;
   }
 
   .featured-course-hero {
@@ -1349,13 +1361,15 @@
   }
 
   .course-upcoming__course {
-    grid-template-columns: 96px minmax(0, 1fr);
+    grid-template-columns: 88px minmax(0, 1fr);
+    grid-template-rows: auto auto auto;
     column-gap: 12px;
   }
 
   .course-upcoming__image {
-    width: 96px;
-    height: 96px;
+    width: 88px;
+    height: 88px;
+    align-self: start;
   }
 
   .course-upcoming__course strong {
@@ -1385,6 +1399,10 @@
     font-size: 12px;
   }
 
+  .featured-course-hero__nav {
+    flex-wrap: wrap;
+  }
+
   .featured-course-hero h1 {
     font-size: 36px;
     line-height: 40px;
@@ -1398,6 +1416,15 @@
 
   .featured-course-session-dates {
     grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .featured-course-fees {
+    grid-template-columns: 1fr;
+  }
+
+  .featured-course-primary {
+    width: 100%;
+    text-align: center;
   }
 
   .featured-course-hero__grid > aside,
